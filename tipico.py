@@ -18,7 +18,7 @@ pil_image2 = PIL.Image.open(image_path_2)
 
 #downloaded_image = requests.get(image_url_1)
 
-client = genai.Client(api_key="AIzaSyA4PbmRBuWTiC8Cw0UhgUWzh45rWERf0Bw")
+client = genai.Client(api_key="******************************")
 response = client.models.generate_content(
     model="gemini-2.0-flash-exp",
     contents=["Extract table information form these images",
