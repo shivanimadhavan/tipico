@@ -1,0 +1,4 @@
+1. input sample csv --> output result json
+2. Define the schema of the output json and the confidence score of the resulting values
+3. It must take multiple images render text and output a single csv file
+4. Try it out for less segments i.e. fewer images resulting in less API calls --> verfiy the accuracy afterwards
