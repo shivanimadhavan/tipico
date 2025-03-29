@@ -98,7 +98,7 @@ def main():
     pil_image_2 = PIL.Image.open(image_path_2)
 
     # Provide your own API key here
-    client = genai.Client(api_key="AIzaSyA4PbmRBuWTiC8Cw0UhgUWzh45rWERf0Bw")
+    client = genai.Client(api_key="**********************************")
     
     response = client.models.generate_content(
         model="gemini-2.0-flash-exp",
