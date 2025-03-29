@@ -86,7 +86,7 @@ def main():
         
         submit_button = st.button("Submit")
         if submit_button:
-            client = genai.Client(api_key="AIzaSyA4PbmRBuWTiC8Cw0UhgUWzh45rWERf0Bw")
+            client = genai.Client(api_key="*************************************")
             
             # Set chunk height to 500 pixels (10 rows per chunk) and define overlap (50 pixels)
             chunk_height = 500
