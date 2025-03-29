@@ -22,7 +22,7 @@ def segment_image(image_path, segment_size=(500, 500)):
     return segments
 
 # Initialize Google GenAI client
-client = genai.Client(api_key="AIzaSyA4PbmRBuWTiC8Cw0UhgUWzh45rWERf0Bw")
+client = genai.Client(api_key="*******************************")
 
 def pdf_to_images(pdf_path, output_folder, zoom_x=2, zoom_y=2):
     """Converts a PDF into images, saving each page as a PNG."""
