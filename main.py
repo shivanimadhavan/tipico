@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import io
 import json
@@ -86,19 +87,32 @@ def main():
         
         submit_button = st.button("Submit")
         if submit_button:
-            client = genai.Client(api_key="*************************************")
+            client = genai.Client(api_key="****************************")
             
-            # Set chunk height to 500 pixels (10 rows per chunk) and define overlap (50 pixels)
+            # Create an output folder to store all chunk images and CSV files
+            output_folder = "output_chunks"
+            if not os.path.exists(output_folder):
+                os.makedirs(output_folder)
+            
+            # Set chunk height to 500 pixels (approx. 10 rows per chunk) and define overlap (50 pixels)
             chunk_height = 500
             overlap = 50
             
-            # Compute total chunks for progress tracking
+            # Compute total chunks for overall progress tracking
             total_chunks = sum(math.ceil(image.height / chunk_height) for image in images)
             
             chunk_counter = 0
             all_extracted_text = ""
             progress_bar = st.progress(0)
+            
+            # Process each page separately
             for page_idx, page_image in enumerate(images):
+                # Create a folder for the page
+                page_folder = os.path.join(output_folder, f"page_{page_idx+1}")
+                if not os.path.exists(page_folder):
+                    os.makedirs(page_folder)
+                    
+                page_extracted_text = ""
                 num_chunks = math.ceil(page_image.height / chunk_height)
                 for chunk_idx in range(num_chunks):
                     left = 0
@@ -109,7 +123,11 @@ def main():
                     bottom = min(page_image.height, (chunk_idx + 1) * chunk_height + overlap)
                     chunk = page_image.crop((left, top, right, bottom))
                     
-                    with st.spinner(f"Processing page {page_idx + 1}, chunk {chunk_idx + 1} of {num_chunks}..."):
+                    # Save the chunk image in the corresponding page folder
+                    chunk_filename = os.path.join(page_folder, f"chunk_{chunk_idx+1}.png")
+                    chunk.save(chunk_filename)
+                    
+                    with st.spinner(f"Processing page {page_idx+1}, chunk {chunk_idx+1} of {num_chunks}..."):
                         response = client.models.generate_content(
                             model="gemini-2.0-flash-exp",
                             contents=[
@@ -117,12 +135,26 @@ def main():
                                 chunk
                             ]
                         )
+                        page_extracted_text += response.text + "\n"
                         all_extracted_text += response.text + "\n"
                     
                     chunk_counter += 1
                     progress_bar.progress(chunk_counter / total_chunks)
+                
+                # Parse the extracted text for the current page and save as CSV.
+                page_table_rows = parse_extracted_text(page_extracted_text, delimiter="|")
+                if page_table_rows:
+                    header = page_table_rows[0]
+                    data_rows = adjust_table_rows(header, page_table_rows[1:])
+                    df_page = pd.DataFrame(data_rows, columns=header)
+                    csv_filename = os.path.join(page_folder, "page_data.csv")
+                    df_page.to_csv(csv_filename, index=False)
+                    
+                    # Display the table for this page on the front end.
+                    st.subheader(f"Extracted Table Data {page_idx+1}")
+                    st.dataframe(df_page)
             
-            # Parse the extracted text into table rows using your custom parser.
+            # Optionally, process the global extracted text for overall data.
             table_rows = parse_extracted_text(all_extracted_text, delimiter="|")
             
             # Define project and file information
@@ -152,12 +184,12 @@ def main():
             
             json_str = json.dumps(json_output, indent=2)
             
-            # Construct the DataFrame directly from table_rows.
+            # Optionally, display a global DataFrame from all pages.
             if table_rows:
                 header = table_rows[0]
                 data_rows = adjust_table_rows(header, table_rows[1:])
                 df = pd.DataFrame(data_rows, columns=header)
-                st.subheader("Extracted Table Data")
+                st.subheader("Global Extracted Table Data")
                 st.dataframe(df)
             else:
                 st.error("No table rows extracted.")
