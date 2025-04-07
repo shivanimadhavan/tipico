@@ -117,7 +117,7 @@ def build_json_structure(table_rows, project_id, project_name, project_descripti
 # --- Main Streamlit App ---
 def main():
     st.set_page_config(layout="wide")
-    st.title("📄 PDF Table Extractor using Gemini AI")
+    st.title("📄 PDF Table Extractor")
 
     # --- Use original API Key Initialization (as requested) ---
     api_key = "AIzaSyC0kB6SRs4kwmeWyCjZabqCcQCQz_dIu_Y" # Replace with your actual key
