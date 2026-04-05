@@ -9,10 +9,10 @@ This project extracts tabular data from PDF documents by converting PDF pages in
 - Extract table content using Gemini
 - Parse extracted text into rows and columns
 - Display structured table data in a Streamlit interface
-- Build JSON output for project, file, metadata, table data, and table cell records :contentReference[oaicite:1]{index=1}
+- Build JSON output for project, file, metadata, table data, and table cell records.
 
 ## Tech Stack
-Python, Streamlit, PyMuPDF, Pillow, Pandas, Google Gemini API. :contentReference[oaicite:2]{index=2}
+Python, Streamlit, PyMuPDF, Pillow, Pandas, Google Gemini API.
 
 ## Workflow
 PDF Input → Page-to-Image Conversion → Image Chunking → Gemini-based Table Extraction → Text Parsing → Structured Table/JSON Output.
