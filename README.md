@@ -1,6 +1,6 @@
 # Tipico PDF Table Extraction
 
-This project extracts tabular data from PDF documents by converting PDF pages into images, processing them in chunks, and using Google's Gemini model to recognize and reconstruct table content. It is designed to handle scanned or image-based PDFs and convert the extracted data into structured tabular output. :contentReference[oaicite:0]{index=0}
+This project extracts tabular data from PDF documents by converting PDF pages into images, processing them in chunks, and using Google's Gemini model to recognize and reconstruct table content. It is designed to handle scanned or image-based PDFs and convert the extracted data into structured tabular output.
 
 ## Features
 - Upload and process PDF files, including password-protected PDFs
@@ -15,4 +15,4 @@ This project extracts tabular data from PDF documents by converting PDF pages in
 Python, Streamlit, PyMuPDF, Pillow, Pandas, Google Gemini API. :contentReference[oaicite:2]{index=2}
 
 ## Workflow
-PDF Input → Page-to-Image Conversion → Image Chunking → Gemini-based Table Extraction → Text Parsing → Structured Table/JSON Output. :contentReference[oaicite:3]{index=3}
+PDF Input → Page-to-Image Conversion → Image Chunking → Gemini-based Table Extraction → Text Parsing → Structured Table/JSON Output.
